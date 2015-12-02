@@ -1,0 +1,31 @@
+{
+  "name": "matrix",
+  "version": "1.0.0",
+  "description": "Matrix operations- add, subtract, multiply, inverse, determinant, adjoint.",
+  "main": "index.js",
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "\"git@github.com:CodeWingX/Matrix.git\""
+  },
+  "keywords": [
+    "matrices",
+    "matrix",
+    "inverse",
+    "determinant",
+    "adjoint",
+    "transpose"
+  ],
+  "author": "Amresh Venugopal <amresh.venugopal@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CodeWingX/Matrix.git\"/issues"
+  },
+  "homepage": "https://github.com/CodeWingX/Matrix.git\"",
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "mocha": "^2.3.4"
+  }
+}
