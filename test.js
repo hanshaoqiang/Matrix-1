@@ -152,48 +152,47 @@ var set = function(input, rows, cols){
 			matrix.push(temp);
 			temp = [];
 		}
-
-		this.val = matrix;
-		this.size = size(matrix);
-		this.strictSize = strictSize(matrix);
-		this.transpose = transpose(matrix);
-		this.det = det(matrix);
-		this.adj = adj(matrix);
-		this.inv = inv(matrix);
-		this.display = display(matrix);		
-
 	} else {
 		return "cannot make a matrix with those dimensions on your array!";
 	}
-	// return matrix;
+	 return matrix;
 }
 
-/* ============================================================================================
-Object matrix - class 
-=============================================================================================*/
-function Matrix(row, col, type) {
-	this.val = [];
-	for(var i = 0; i < row; i++) {
+var I = function(rows, cols){
+	var matrix = [];
+	for(var i = 0; i < rows; i++ ) {
 		var temp = [];
-		for(var j = 0; j < col; j++) {
-			if(i==j){
+		for(var j= 0; j < cols; j++ ) {
+			if( i === j){
 				temp.push(1);
 			} else {
-				temp.push(0);
+				temp.push(0);				
 			}
 		}
-		this.val.push(temp);
 	}
-		
-	this.set = set;
-	this.size = size(this.val);
-	this.strictSize = strictSize(this.val);
-	this.transpose = transpose(this.val);
-	this.det = det(this.val);
-	this.adj = adj(this.val);
-	this.inv = inv(this.val);
-	this.display = display(this.val);
-	
+}
+
+var O = function(rows, cols){
+	var matrix = [];
+	for(var i = 0; i < rows; i++ ) {
+		var temp = [];
+		for(var j= 0; j < cols; j++ ) {
+			temp.push(0);				
+		}
+	}	
+}
+
+var add = function(){
+	var sumMatrix = [];
+	for(var i = 0; i < arguments.length; i++ ){
+
+		for(var j = 0; j < arguments[i].length; j++ ) {
+			for(var k = 0; k < arguments[i][j].length; k++ ) {
+				
+			}
+		}
+
+	}
 }
 /*=============================================================================================
 testing the above functions; 
@@ -229,34 +228,5 @@ var toAdjoint = [
 					[0, 1, 4],
 					[5, 6, 0]
 			];
-/*			
-console.log("===================================================");
-console.log("1. size(myMatrix) = " + size(myMatrix));
-console.log("===================================================");
-console.log("2. strictSize(myMatrix) = " + strictSize(myMatrix));
-console.log("===================================================");
-console.log("3. transpose(matrix) = ");
-console.log("for input =\n");
-console.log(myMatrix);
-console.log("\ngives output =\n");
-console.log(transpose(myMatrix));
-console.log("===================================================");
-console.log("4. det(matrix) = ");
-console.log("for input =\n");
-console.log(myMatrix);
-console.log("\ngives output =\n");
-console.log(displayMatrix(myMatrix));
-*/
-var matrix = new Matrix(3, 3);
-var input = [1,2,3,0,1,4,5,6,0];
 
-console.log(matrix.set(input, 3, 3));
-console.log(matrix.val);
-console.log(matrix.display);
-console.log(matrix.size);
-console.log(matrix.strictSize);
-console.log(matrix.transpose);
-console.log(matrix.det);
-console.log(matrix.adj);
-console.log(matrix.inv);
-console.log(matrix.display);
+var input = [1,2,3,0,1,4,5,6,0];
