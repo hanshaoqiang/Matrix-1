@@ -1,3 +1,4 @@
+
 function matrixGenerator(matrix, row, col) {
 	var seedMatrix = [];	
 
@@ -97,7 +98,7 @@ var adj = function(matrix){
 		var temp = [];
 		for( var j = 0; j < matrix[i].length; j++ ) {
 			negative *= -1;
-			temp.push( det(matrixGenerator(matrix, i, j)) * negative );
+			temp.push( det(matrixGenerator(matrix, i, j)) * negative );				
 		}
 		adjoint.push(temp);
 	}
@@ -107,6 +108,9 @@ var adj = function(matrix){
 var inv = function(matrix){
 	var adjoint = adj(matrix);
 	var determinant = det(matrix);
+	if( determinant === 0) {
+		return "Error, non-invertible";
+	}
 	var inverse = [];
 	for(var i = 0; i < adjoint.length; i++ ){
 		var temp = [];
@@ -118,9 +122,8 @@ var inv = function(matrix){
 	return inverse;
 }
 
-var displayMatrix = function(matrix){
+var display = function(matrix){
 	var str = "";
-
 	for(var i = 0; i < matrix.length; i++) {
 		str += "\n\t";
 		for(var j = 0; j < matrix[i].length; j++) {
@@ -136,6 +139,62 @@ var displayMatrix = function(matrix){
 	return str;
 }
 
+var set = function(input, rows, cols){
+	var matrix = [], pos = 0;
+
+	if( rows * cols === input.length){
+		for(var i = 0; i < rows; i++) {
+			var temp = [];
+			for(var j = pos; j < cols + pos; j++) {
+				temp.push(input[j]);
+			}
+			pos += rows;
+			matrix.push(temp);
+			temp = [];
+		}
+
+		this.val = matrix;
+		this.size = size(matrix);
+		this.strictSize = strictSize(matrix);
+		this.transpose = transpose(matrix);
+		this.det = det(matrix);
+		this.adj = adj(matrix);
+		this.inv = inv(matrix);
+		this.display = display(matrix);		
+
+	} else {
+		return "cannot make a matrix with those dimensions on your array!";
+	}
+	// return matrix;
+}
+
+/* ============================================================================================
+Object matrix - class 
+=============================================================================================*/
+function Matrix(row, col, type) {
+	this.val = [];
+	for(var i = 0; i < row; i++) {
+		var temp = [];
+		for(var j = 0; j < col; j++) {
+			if(i==j){
+				temp.push(1);
+			} else {
+				temp.push(0);
+			}
+		}
+		this.val.push(temp);
+	}
+		
+	this.set = set;
+	this.size = size(this.val);
+	this.strictSize = strictSize(this.val);
+	this.transpose = transpose(this.val);
+	this.det = det(this.val);
+	this.adj = adj(this.val);
+	this.inv = inv(this.val);
+	this.display = display(this.val);
+	
+}
 /*=============================================================================================
 testing the above functions; 
 =============================================================================================*/
@@ -152,10 +211,10 @@ var secondOrder = [
 			];
 
 var secondMatrix = [
-				[2, 5, -3, -2],
+				[2, 5, -3,  -2],
 				[-2, -3, 2, -5],
-				[1, 3, -2, 0],
-				[-1, -6, 4, 0]
+				[1, 3, -2,   0],
+				[-1, -6, 4,  0]
 			];
 var thirdMatrix = [
 				[1, 3, 0, 0, 0],
@@ -170,7 +229,8 @@ var toAdjoint = [
 					[0, 1, 4],
 					[5, 6, 0]
 			];
-/*console.log("===================================================");
+/*			
+console.log("===================================================");
 console.log("1. size(myMatrix) = " + size(myMatrix));
 console.log("===================================================");
 console.log("2. strictSize(myMatrix) = " + strictSize(myMatrix));
@@ -184,5 +244,19 @@ console.log("===================================================");
 console.log("4. det(matrix) = ");
 console.log("for input =\n");
 console.log(myMatrix);
-console.log("\ngives output =\n");*/
+console.log("\ngives output =\n");
 console.log(displayMatrix(myMatrix));
+*/
+var matrix = new Matrix(3, 3);
+var input = [1,2,3,0,1,4,5,6,0];
+
+console.log(matrix.set(input, 3, 3));
+console.log(matrix.val);
+console.log(matrix.display);
+console.log(matrix.size);
+console.log(matrix.strictSize);
+console.log(matrix.transpose);
+console.log(matrix.det);
+console.log(matrix.adj);
+console.log(matrix.inv);
+console.log(matrix.display);
