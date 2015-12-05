@@ -20,7 +20,7 @@ var size = function(matrix) {
 }
 
 var squareMatrix = function(matrix) {
-	(strictSize(matrix)[0] === strictSize(matrix)[1])?true:false;
+	return (strictSize(matrix)[0] === strictSize(matrix)[1])?true:false;
 }
 
 var strictSize = function(inputMatrix) {
@@ -42,13 +42,28 @@ var strictSize = function(inputMatrix) {
 
 }
 
+var serialize = function(matrix){
+		rows = size(matrix)[0],
+		cols = size(matrix)[1],
+		k	 = 0,
+		vector = [];
 
-var Matrix = function(rows, cols){
+	for(var i = 0; i < rows; i++ ) {
+		for(var j = 0; j < cols; j++ ) {
+			vector.push(matrix[i][j]);
+		}
+	}
+	return vector;
+}
+
+
+var Matrix = function(rows, cols, identity){
 	this.val = [];
+	identity = identity || false;
 	for(var i = 0; i < rows; i++) {
 		var temp = [];
 		for( var j = 0; j < cols; j++) {
-			if(i === j) {
+			if(i === j && identity === true) {
 				temp.push(1);
 			} else {
 				temp.push(0);
@@ -91,6 +106,10 @@ Matrix.prototype.transpose = function() {
 Matrix.prototype.det = function() {
 	var matrix = this.val;
 
+	if(!squareMatrix(matrix)){
+		return "Not a square matrix";
+	}
+
 	var ans = 0;
 	for (var i = 0; i < matrix[0].length; i++) {
 		var seedMatrix = matrixGenerator(matrix, 0, i);
@@ -128,21 +147,28 @@ Matrix.prototype.det = function() {
 
 Matrix.prototype.adj = function(){
 	var matrix = this.val;
-	// if(!squareMatrix(matrix)){
-	// 	return "Not a square matrix";
-	// }
-
+	if(!squareMatrix(matrix)){
+		return "Not a square matrix";
+	}
 	var adjoint = [], negative = -1;
 	for( var i = 0; i < matrix.length; i++ ) {
 		var temp = [];
 		for( var j = 0; j < matrix[i].length; j++ ) {
+			
 			negative *= -1;
-			temp.push( (matrixGenerator(matrix, i, j)).det() * negative );
+
+			var subMatrixVal = matrixGenerator(matrix, i, j),
+				subMatrixRows = size(subMatrixVal)[0],
+				subMatrixCols = size(subMatrixVal)[1];
+			var subMatrix = new Matrix(subMatrixRows, subMatrixCols);
+				subMatrix.set(serialize(subMatrixVal), subMatrixRows, subMatrixCols);
+			temp.push( subMatrix.det() * negative );
 		}
 		adjoint.push(temp);
 	}
+
 	this.val = adjoint;
-	this.val = this.val.transpose();
+	this.val = this.transpose().val;
 	return this;
 }
 /* ==========================================================
@@ -152,8 +178,14 @@ Matrix.prototype.adj = function(){
 ========================================================== */
 
 var input = [1,2,3,0,-1,4,3,2,1];
+var secondMatrix = [
+				[2, 5, -3,  -2],
+				[-2, -3, 2, -5],
+				[1, 3, -2,   0],
+				[-1, -6, 4,  0]
+			];
 var matrix = new Matrix(3,3);
 console.log(matrix.val);
 console.log(matrix.set(input, 3, 3).val);
-console.log(matrix.adj());
-
+console.log(matrix.det());
+console.log(matrix.adj().val);
