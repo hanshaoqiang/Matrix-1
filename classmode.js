@@ -171,6 +171,22 @@ Matrix.prototype.adj = function(){
 	this.val = this.transpose().val;
 	return this;
 }
+
+Matrix.prototype.inv = function(){
+	var matrix = this.val;
+	var det = this.det();
+	var adj = this.adj().val;
+	var rows = size(adj)[0];
+	var cols = size(adj)[1];
+	
+	for(var i = 0; i < rows; i++ ) {
+		for ( var j = 0; j < cols; j++ ) {
+			adj[i][j] /= det; 
+		}
+	}
+	this.val = adj;
+	return this;
+}
 /* ==========================================================
 	
 	Implementing matrix methods
@@ -188,4 +204,4 @@ var matrix = new Matrix(3,3);
 console.log(matrix.val);
 console.log(matrix.set(input, 3, 3).val);
 console.log(matrix.det());
-console.log(matrix.adj().val);
+console.log(matrix.inv());
