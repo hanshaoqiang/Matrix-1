@@ -1,3 +1,5 @@
+//MOdify transpose such that inv adj val get adjusted accordingly.
+
 /* -----------------------------------------------------------------
 	This function generates the minors of an element of a matrix
 	Arguments : 
@@ -230,10 +232,8 @@ Matrix.prototype.adj = function(){
 		this.adjoint = matrix;
 		return this;
 	} else if (rows === 2) {
-		matrix = this.transpose().val;
-		matrix[0][1] *= -1;
-		matrix[1][0] *= -1;
-		this.adjoint = matrix;
+		matrix = this.val;
+		this.adjoint = [[matrix[0][0], (matrix[1][0] === 0)?matrix[1][0] : matrix[1][0]*(-1)], [(matrix[0][1] === 0) ? matrix[0][1] : matrix[0][1]*(-1), matrix[1][1]]];
 		return this;
 	} else {
 
@@ -249,12 +249,13 @@ Matrix.prototype.adj = function(){
 
 				var subMatrix = new Matrix(subMatrixRows, subMatrixCols);
 					subMatrix.set(serialize(subMatrixVal), subMatrixRows, subMatrixCols, true);
-				temp.push( subMatrix.det() * negative );
+				temp.push( subMatrix.det().determinant * negative );
 			}
 			adjoint.push(temp);
 		}
 
 		this.adjoint = adjoint;
+		console.log(adjoint);
 		this.adjoint = this.transpose().val;
 		return this;
 
@@ -484,5 +485,6 @@ var _1dMatrix = [
 					[1]
 ];
 var matrix = new Matrix(2,2,true);
-console.log(matrix.set([1,0,2,4], 2, 2));
-// console.log(matrix.adj());
+console.log(matrix);
+matrix.set(serialize(_3dMatrix), 3, 3);
+console.log(matrix);
