@@ -1,4 +1,3 @@
-//MOdify transpose such that inv adj val get adjusted accordingly.
 var xPose = function (matrix) {
 
 	var serial = serialize(matrix);
@@ -27,7 +26,6 @@ var calcDeterminant = function(matrix){
 		if(!squareMatrix(matrix)){
 			return [NaN];
 		}
-
 		var ans = 0;
 		for (var i = 0; i < matrix[0].length; i++) {
 			var seedMatrix = matrixGenerator(matrix, 0, i);
@@ -66,7 +64,7 @@ var calcDeterminant = function(matrix){
 var	calcAdjoint = function(matrix){
 
 		if(!squareMatrix(matrix)){
-			return "Not a square matrix";
+			return [NaN];
 		}
 
 		var adjoint = [], negative = -1;
@@ -74,7 +72,11 @@ var	calcAdjoint = function(matrix){
 			var temp = [];
 			for( var j = 0; j < matrix[i].length; j++ ) {
 				negative *= -1;
-				temp.push( det(matrixGenerator(matrix, i, j)) * negative );
+				if(calcDeterminant(matrixGenerator(matrix, i, j)) !== 0) {
+					temp.push( calcDeterminant(matrixGenerator(matrix, i, j)) * negative );					
+				} else {
+					temp.push( calcDeterminant(matrixGenerator(matrix, i, j)) );
+				}
 			}
 			adjoint.push(temp);
 		}
@@ -82,26 +84,48 @@ var	calcAdjoint = function(matrix){
 	}	
 
 var calcInverse = function(matrix){
-		var adjoint = calcAdjoint(matrix);
-		var determinant = calcDeterminant(matrix);
-		var inverse = [];
-		for(var i = 0; i < adjoint.length; i++ ){
-			var temp = [];
-			for(var j = 0; j < adjoint[i].length; j++ ){
-				temp.push(adjoint[i][j]/determinant);
-			}
-			inverse.push(temp);
-		}
-		return inverse;
+
+	if(!squareMatrix(matrix) || (calcDeterminant(matrix) === 0)){
+		return [NaN];
 	}
+
+	var adjoint = calcAdjoint(matrix);
+	var determinant = calcDeterminant(matrix);
+	var inverse = [];
+	for(var i = 0; i < adjoint.length; i++ ){
+		var temp = [];
+		for(var j = 0; j < adjoint[i].length; j++ ){
+			temp.push(Math.round((adjoint[i][j]/determinant)*1000)/1000);
+		}
+		inverse.push(temp);
+	}
+	return inverse;
+}
+
+var stringer = function(matrix) {
+	var str = "";
+	for(var i = 0; i < matrix.length; i++) {
+		str += "\n\t";
+		for(var j = 0; j < matrix[i].length; j++) {
+			if(j === 0 ){
+				str += "|\t";
+			}
+			str += matrix[i][j] + "\t";
+			if(j === matrix[i].length - 1) {
+				str += "|";
+			}
+		}
+	}
+	return str;
+}
 
 /* -----------------------------------------------------------------
 	This function generates the minors of an element of a matrix
 	Arguments : 
-		1. Matrix 
-		2. Index of the element for which the minors are required
+		1. Matrix. 
+		2. Index of the element for which the minors are required.
  ----------------------------------------------------------------- */
-function matrixGenerator(matrix, row, col) {
+var matrixGenerator = function (matrix, row, col) {
 	var seedMatrix = [];	
 
 	for (var i = 0; i < matrix.length; i++) {
@@ -118,10 +142,10 @@ function matrixGenerator(matrix, row, col) {
 	return seedMatrix;
 }
 /*  -----------------------------------------------------------------
-	size and strictSize provide the matrix order.
-	size is fast at the cost of unreliability.
-	 - strictSize checks rows and coloumns of a matrix
-	 - size checks rows but only the first column  
+	size and strictSize provide the order for a matrix.
+	size is faster at the cost of unreliability.
+	 - strictSize checks rows and coloumns of a matrix.
+	 - size checks rows but only the first column. 
  ----------------------------------------------------------------- */
 var size = function(matrix) {
 	rows = matrix === undefined? 0: matrix.length;
@@ -147,7 +171,7 @@ var strictSize = function(inputMatrix) {
 
 /*  -----------------------------------------------------------------
  
-	Checks if a given matrix is a square matrix
+	Checks if a given matrix is a square matrix.
 
  ----------------------------------------------------------------- */
 var squareMatrix = function(matrix) {
@@ -174,18 +198,28 @@ var serialize = function(matrix){
 	return vector;
 }
 
-/*  -----------------------------------------------------------------
+/*  --------------------------------------------------------------------
  
 	Matrix constructor:
-		- first argument for number of rows of the new matrix.
-		- second argument for number of coloumns of the new matrix
-		- third argument [is optional]: can be set as true or false. 
+		1 first argument for number of rows of the new matrix.
+		2 second argument for number of coloumns of the new matrix
+		3 third argument [is optional]: can be set as true or false. 
 			- set third argument to true for creating identity matrix.
 			- not setting as true creates null matrix.
-		- properties : val
-			- val is the matrix bound to the Matrix object instance. 
 
- ----------------------------------------------------------------- */
+		4 properties :
+			a. val : The matrix bound to the Matrix object instance. 
+			b. determinant: The magnitude of the Matrix.
+			c. adjoint : The matrix formed by taking transpose of 
+						cofactor-matrix of the original matrix.
+			d. inverse : if [A][B] = [I], then [B] is inverse of [A].
+						this property pertains only to square matrices, 
+						having |A| != 0.						
+						For non-square matrix, say A the property 
+						is set as [NaN] also for |A| = 0 matrices.
+
+
+ ---------------------------------------------------------------------- */
 
 var Matrix = function(rows, cols, identity){
 	this.val = [];
@@ -204,6 +238,7 @@ var Matrix = function(rows, cols, identity){
 	this.determinant = (identity === true)? 1:0;
 	this.adjoint = this.val;
 	this.inverse = [NaN];
+	this.stringify();
 }
 
 /*  -----------------------------------------------------------------
@@ -212,13 +247,12 @@ var Matrix = function(rows, cols, identity){
 		- first argument is an array to be converted to a matrix.
 		- second argument for number of rows of the new matrix.
 		- third argument for number of coloumns of the new matrix.
-
+	@isChainable: True
  ----------------------------------------------------------------- */
 
-Matrix.prototype.set = function(input, rows, cols, junk) {
+Matrix.prototype.set = function(input, rows, cols) {
 	var pos = 0;
 	var matrix = [];
-	junk = junk || false;
 	for( var i = 0; i < rows; i++ ) {
 		var temp = [];
 		for( var j = pos; j < cols + pos; j++ ) {
@@ -229,25 +263,20 @@ Matrix.prototype.set = function(input, rows, cols, junk) {
 	}
 
 	this.val = matrix;
-	if(!junk){
-		this.det();
-		this.adj();
-		this.inv();		
-	}
+	this.det();
+	this.adj();
+	this.inv();		
+	this.stringify();
 	return this;
 }
 
-/*  -----------------------------------------------------------------
+/*  --------------------------------------------------------------------------
  
 	Matrix transpose:
 		- 	Transposes an NxM matrix:
-			by swapping the non left diagonal elements.
-		-	Transposes an NxM matrix:
-			-	by serialising the matrix.
-			-	creating a new matrix using the Matrix.set() method.
-			-	swapping rows and coloumns in the Matrix.set() method.
-
- ----------------------------------------------------------------- */
+			the resultant matrix appears as if rotated 90 anti-clockwise.
+	@isChainable: True
+ --------------------------------------------------------------------------- */
 
 
 Matrix.prototype.transpose = function() {
@@ -258,6 +287,7 @@ Matrix.prototype.transpose = function() {
 	this.val = xPose(this.val);
 	this.adjoint = xPose(this.adjoint);
 	this.inverse = xPose(this.inverse);
+	this.stringify();
 	return this;
 }
 
@@ -265,42 +295,67 @@ Matrix.prototype.transpose = function() {
  
 	Matrix determinant:
 		-	Calculates determinant of a matrix 
-
+	@isChainable: True
  ----------------------------------------------------------------- */
 
 Matrix.prototype.det = function() {
-	this.val = calcDeterminant(this.val);
+	this.determinant = calcDeterminant(this.val);
 	return this;
 }
 
+/*  -----------------------------------------------------------------
+ 
+	Matrix Adjoint:
+		-	Calculates adjoint of a matrix 
+	@isChainable: True
+ ----------------------------------------------------------------- */
+
 Matrix.prototype.adj = function(){
-	this.adjoint = calcAdjoint(this.val);
+	this.adjoint = calcAdjoint(this.val);	
+	this.stringify();
 	return this;	
 }
+
+/*  -----------------------------------------------------------------
+ 
+	Matrix Inverse:
+		-	Calculates inverse of a matrix 
+	@isChainable: True
+ ----------------------------------------------------------------- */
+
 
 Matrix.prototype.inv = function(){
 
 	this.inverse = calcInverse(this.val);
+	this.stringify();
 	return this;
 }
 
+/*  -----------------------------------------------------------------
+ 
+	Matrix Stringify:
+		-	Provides a string representation of the matrix 
+	@isChainable: true
+ ----------------------------------------------------------------- */
+
+
 Matrix.prototype.stringify = function(){
-	var str = "";
-	var matrix = this.val;
-	for(var i = 0; i < matrix.length; i++) {
-		str += "\n\t";
-		for(var j = 0; j < matrix[i].length; j++) {
-			if(j === 0 ){
-				str += "|\t";
-			}
-			str += matrix[i][j] + "\t";
-			if(j === matrix[i].length - 1) {
-				str += "|";
-			}
-		}
-	}
-	return str;
+	this.valString = stringer(this.val);
+	this.adjointString = stringer(this.adjoint);
+	this.inverseString = stringer(this.inverse);
+	return this;
 }
+
+/*  -----------------------------------------------------------------
+ 
+	Matrix Add([A], [B], [C],........[N]):
+		-	Adds all the matrices given as argument to the function
+			to the object.val matrix.
+		-	recalculates the inverse, adjoint
+			and determinant of the resultant matrix.
+	@isChainable: true
+ ----------------------------------------------------------------- */
+
 
 Matrix.prototype.add = function(){
 	var newMatrices = [];
@@ -310,7 +365,6 @@ Matrix.prototype.add = function(){
 	var cols = size(current)[1];
 	for(var i = 0; i < argumentLength; i++) {
 		if(size(arguments[i])[0] !== size(current)[0] || size(arguments[i])[1] !== size(current)[1] ) {
-			this.val = NaN;
 			return this;
 		} else {
 			newMatrices.push(arguments[i]);			
@@ -328,8 +382,19 @@ Matrix.prototype.add = function(){
 	this.det();
 	this.adj();
 	this.inv();
+	this.stringify();
 	return this;
 }
+
+/*  -----------------------------------------------------------------
+ 
+	Matrix Subtract([A], [B], [C],........[N]):
+		-	Subtracts all the matrices given as argument to the 
+			function from the object.val matrix.
+		-	recalculates the inverse, adjoint
+			and determinant of the resultant matrix.
+	@isChainable: true
+ ----------------------------------------------------------------- */
 
 Matrix.prototype.sub = function(){
 	var newMatrices = [];
@@ -339,7 +404,6 @@ Matrix.prototype.sub = function(){
 	var cols = size(current)[1];
 	for(var i = 0; i < argumentLength; i++) {
 		if(size(arguments[i])[0] !== size(current)[0] || size(arguments[i])[1] !== size(current)[1] ) {
-			this.val = NaN;
 			return this;
 		} else {
 			newMatrices.push(arguments[i]);			
@@ -357,8 +421,19 @@ Matrix.prototype.sub = function(){
 	this.det();
 	this.adj();
 	this.inv();
+	this.stringify();
 	return this;
 }
+
+/*  -----------------------------------------------------------------
+ 
+	Matrix multiply([A], [B], [C],........[N]):
+		-	Multiplies the matrices given as argument to the function
+			with the object.val matrix.
+		-	recalculates the inverse, adjoint
+			and determinant of the resultant matrix. 
+	@isChainable: true
+ ----------------------------------------------------------------- */
 
 Matrix.prototype.multiply = function(){
 	var newMatrices = [];
@@ -375,8 +450,6 @@ Matrix.prototype.multiply = function(){
 		var cols = size(current)[1];
 		var newRows = size(newMatrices[i])[0];
 		var newCols = size(newMatrices[i])[1];
-		console.log("qualifier : " + cols +"x"+ newRows);
-		console.log("new dimensions : " + rows +"x"+newCols);
 		if(cols !== newRows) {
 			this.val = [NaN];
 			return this;
@@ -398,8 +471,19 @@ Matrix.prototype.multiply = function(){
 	this.det();
 	this.adj();
 	this.inv();
+	this.stringify();
 	return this;
 }
+
+/*  -----------------------------------------------------------------
+ 
+	Matrix scale(A, B, C,........N):
+		-	Multiplies the numbers given as argument to the function
+			with the object.val matrix.
+		-	recalculates the inverse, adjoint
+			and determinant of the resultant matrix. 
+	@isChainable: true
+ ----------------------------------------------------------------- */
 
 Matrix.prototype.scale = function() {
 	var matrix = this.val;
@@ -422,6 +506,16 @@ Matrix.prototype.scale = function() {
 	this.inv();	
 	return this;
 }
+
+/*  -----------------------------------------------------------------
+ 
+	Matrix isEqual(A):
+		-	Returns True 
+				if the argument matrix is same as 
+				object.val  matrix.
+				Else returns False
+	@isChainable: False
+ ----------------------------------------------------------------- */
 
 Matrix.prototype.isEqual = function(matrix2) {
 	var matrix = this.val;
@@ -494,5 +588,8 @@ var _1dMatrix = [
 					[1]
 ];
 var matrix = new Matrix(2,2,true);
-matrix.set(serialize(_3dMatrix), 3, 3);
-// console.log(matrix.add(_3dMatrix1));
+console.log(matrix.set(serialize(_5dMatrix), 4, 4));
+console.log(matrix.add(_3dMatrix1));
+console.log(matrix.valString);
+console.log(matrix.adjointString);
+console.log(matrix.inverseString);
