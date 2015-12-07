@@ -488,11 +488,11 @@ Matrix.prototype.scale = function() {
 	var product = 1;
 	var rows = size(matrix)[0];
 	var cols = size(matrix)[1];
+	var argumentLength = arguments.length;	
 
 	for(var i = 0; i < argumentLength; i++) {
 		product *= arguments[i];
 	}
-
 	for(var i = 0; i < rows; i++) {
 		for(var j = 0; j < cols; j++) {
 			matrix[i][j] *= product;
@@ -555,5 +555,5 @@ var _3DMatrix2 = [
 ];
 var _3DMatrix = new Matrix(2,2,true);	
 _3DMatrix.set([1,2,3,4,4,6,5,3,2],3,3);
-console.log(_3DMatrix.add(_3DMatrix1, _3DMatrix2));
+console.log(_3DMatrix.isEqual(_3DMatrix1));
 module.exports = Matrix;

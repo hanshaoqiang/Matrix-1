@@ -3,6 +3,7 @@ Installation
 ```shell
 $ npm install matrixsoup
 ```
+Installs a 19.8KB package 
 
 Matrix constructor
 ==================
@@ -155,8 +156,80 @@ The output
   inverseString: '\n\t|\t-0.391\t0.075\t0.174\t|\n\t|\t0.043\t0.087\t-0.13\t|\n\t|\t0.348\t-0.019\t-0.043\t|' }
 ```
 
+#4. Matrix.sub([A],([B],...)):
+@isChainable: true
 
+The sub method allows variable number of matrices to be sent as arguments to be subtracted from the matrix.
+This updates the determinant, adjoint, inverse and string representations.
 
+```javascript
+_3DMatrix.set([1,2,3,4,4,6,5,3,2],3,3);
+console.log(_3DMatrix.sub(_3DMatrix1, _3DMatrix2));
+```
+Gives output:
+```javascript
+{ val: [ [ 1, 4, 2 ], [ 1, 1, 5 ], [ 5, 9, -2 ] ],
+  determinant: 69,
+  adjoint: [ [ -47, 26, 18 ], [ 27, -12, -3 ], [ 4, 11, -3 ] ],
+  inverse:
+   [ [ -0.681, 0.377, 0.261 ],
+     [ 0.391, -0.174, -0.043 ],
+     [ 0.058, 0.159, -0.043 ] ],
+  valString: '\n\t|\t1\t4\t2\t|\n\t|\t1\t1\t5\t|\n\t|\t5\t9\t-2\t|',
+  adjointString: '\n\t|\t-47\t26\t18\t|\n\t|\t27\t-12\t-3\t|\n\t|\t4\t11\t-3\t|',
+  inverseString: '\n\t|\t-0.681\t0.377\t0.261\t|\n\t|\t0.391\t-0.174\t-0.043\t|\n\t|\t0.058\t0.159\t-0.043\t|' 
+}
+```
+#5. Matrix.multiply([A],([B],...)):
+@isChainable: true
 
+The multiply method allows variable number of matrices to be sent as arguments to be multiplied to the matrix.
+This updates the determinant, adjoint, inverse and string representations.
 
+```javascript
+_3DMatrix.set([1,2,3,4,4,6,5,3,2],3,3);
+console.log(_3DMatrix.multiply(_3DMatrix1, _3DMatrix2));
+```
+Gives output:
+```javascript
+{ val: [ [ -61, -18, -69 ], [ -144, -38, -163 ], [ -96, -18, -111 ] ],
+  determinant: 588,
+  adjoint: [ [ 1284, -756, 312 ], [ -336, 147, -7 ], [ -1056, 630, -274 ] ],
+  inverse:
+   [ [ 2.184, -1.286, 0.531 ],
+     [ -0.571, 0.25, -0.012 ],
+     [ -1.796, 1.071, -0.466 ] ],
+  valString: '\n\t|\t-61\t-18\t-69\t|\n\t|\t-144\t-38\t-163\t|\n\t|\t-96\t-18\t-111\t|',
+  adjointString: '\n\t|\t1284\t-756\t312\t|\n\t|\t-336\t147\t-7\t|\n\t|\t-1056\t630\t-274\t|',
+  inverseString: '\n\t|\t2.184\t-1.286\t0.531\t|\n\t|\t-0.571\t0.25\t-0.012\t|\n\t|\t-1.796\t1.071\t-0.466\t|' }
+```
+#6. Matrix.scale(A,(B,...)):
+@isChainable: true
+
+The scale method allows variable number of numbers to be sent as arguments to be multiplied to the matrix as scalars.
+All the arguments get multiplied first and then get multiplied to the matrix.
+This updates the determinant, adjoint, inverse and string representations.
+
+```javascript
+_3DMatrix.set([1,2,3,4,4,6,5,3,2],3,3);
+console.log(_3DMatrix.scale(2,5));
+```
+Gives output:
+```javascript
+{ val: [ [ 10, 20, 30 ], [ 40, 40, 60 ], [ 50, 30, 20 ] ],
+  determinant: 10000,
+  adjoint: [ [ -1000, 500, 0 ], [ 2200, -1300, 600 ], [ -800, 700, -400 ] ],
+  inverse:
+   [ [ -0.1, 0.05, 0 ],
+     [ 0.22, -0.13, 0.06 ],
+     [ -0.08, 0.07, -0.04 ] ],
+  valString: '\n\t|\t10\t20\t30\t|\n\t|\t40\t40\t60\t|\n\t|\t50\t30\t20\t|',
+  adjointString: '\n\t|\t-1000\t500\t0\t|\n\t|\t2200\t-1300\t600\t|\n\t|\t-800\t700\t-400\t|',
+  inverseString: '\n\t|\t-0.1\t0.05\t0\t|\n\t|\t0.22\t-0.13\t0.06\t|\n\t|\t-0.08\t0.07\t-0.04\t|' }
+```
+#7. Matrix.isEqual([A]):
+@isChainable: false
+
+The isEqual method checks if the passed argument matrix is equal to the matrix object's val matrix property.
+Returns true if equal. 
 
