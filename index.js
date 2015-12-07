@@ -546,4 +546,4 @@ Matrix.prototype.isEqual = function(matrix2) {
 
 ========================================================== */
 
-module.exports = new Matrix(3,3);
+module.exports = Matrix;
