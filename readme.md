@@ -51,6 +51,7 @@ Methods
 ========
 #1. Matrix.set([array], rows, cols): 
 _isChainable: True_
+
 1. First argument is a 1-D array to be converted to a matrix.
 2. Second argument for number of rows of the new matrix.
 3. Third argument for number of coloumns of the new matrix.
@@ -91,6 +92,7 @@ console.log(_2DMatrix.inverseString);
 
 #2. Matrix.transpose(): 
 _isChainable: True_
+
 Transposes an NxM matrix: the resultant matrix appears as if rotated 90° anti-clockwise.
 The transpose method also updates the adjoint, inverse and the string representations.
 
