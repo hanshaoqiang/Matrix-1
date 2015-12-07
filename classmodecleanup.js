@@ -223,7 +223,7 @@ var serialize = function(matrix){
 
 var Matrix = function(rows, cols, identity){
 	this.val = [];
-	identity = identity === true? true : false;
+	identity = identity === false? false : true;
 	for(var i = 0; i < rows; i++) {
 		var temp = [];
 		for( var j = 0; j < cols; j++) {
@@ -237,7 +237,7 @@ var Matrix = function(rows, cols, identity){
 	}
 	this.determinant = (identity === true)? 1:0;
 	this.adjoint = this.val;
-	this.inverse = [NaN];
+	this.inverse = (identity === true)?this.val:[NaN];
 	this.stringify();
 }
 
@@ -365,7 +365,7 @@ Matrix.prototype.add = function(){
 	var cols = size(current)[1];
 	for(var i = 0; i < argumentLength; i++) {
 		if(size(arguments[i])[0] !== size(current)[0] || size(arguments[i])[1] !== size(current)[1] ) {
-			return this;
+			
 		} else {
 			newMatrices.push(arguments[i]);			
 		}
@@ -404,7 +404,7 @@ Matrix.prototype.sub = function(){
 	var cols = size(current)[1];
 	for(var i = 0; i < argumentLength; i++) {
 		if(size(arguments[i])[0] !== size(current)[0] || size(arguments[i])[1] !== size(current)[1] ) {
-			return this;
+				
 		} else {
 			newMatrices.push(arguments[i]);			
 		}
@@ -545,51 +545,3 @@ Matrix.prototype.isEqual = function(matrix2) {
 	Implementing matrix methods
 
 ========================================================== */
-
-var input = [1,2,3,0,-1,4,3,2,1];
-var _3dMatrix = [
-				[1, 2,  3],
-				[0, -4, 1],
-				[0, 3, -1]
-			];
-
-var _3dMatrix1 = [
-				[1, 2,  3],
-				[3, -3, 1],
-				[0, 1, -1]
-			];
-
-var _3dMatrix2 = [
-				[1, 2,  -3],
-				[5, -4, 1],
-				[0, -2, -1]
-			];
-
-var _4dMatrix = [
-				[2, 5, -3,  -2],
-				[-2, -3, 2, -5],
-				[1, 3, -2,   0],
-				[-1, -6, 4,  0]
-			];
-
-var _5dMatrix = [
-				[1, 3, 1, 3,   1],
-				[1, -1, 3, 4, -5],
-				[1, 2, 7, 0,   5],
-				[1, 2, 3, 4,  -5],
-				[1, 0, -1, -4, 5],
-			];
-
-var _2dMatrix = [
-				[5, -3],
-				[1, 2]
-			];
-var _1dMatrix = [
-					[1]
-];
-var matrix = new Matrix(2,2,true);
-console.log(matrix.set(serialize(_5dMatrix), 4, 4));
-console.log(matrix.add(_3dMatrix1));
-console.log(matrix.valString);
-console.log(matrix.adjointString);
-console.log(matrix.inverseString);
