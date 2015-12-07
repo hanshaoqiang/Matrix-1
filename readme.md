@@ -111,14 +111,14 @@ console.log(_3DMatrix.transpose());
   inverseString: '\n\t|\t-1\t0.5\t0\t|\n\t|\t2.2\t-1.3\t0.6\t|\n\t|\t-0.8\t0.7\t
 -0.4\t|' }
 
-{ val: [ [ 1, 4, 5 ], [ 2, 4, 3 ], [ 3, 6, 2 ] ],									//the value transposed
-  determinant: 10,																	//determinant stays the same
-  adjoint: [ [ -10, 22, -8 ], [ 5, -13, 7 ], [ 0, 6, -4 ] ],						//adjoing is transposed
-  inverse: [ [ -1, 2.2, -0.8 ], [ 0.5, -1.3, 0.7 ], [ 0, 0.6, -0.4 ] ],				//and so is the inverse!
+{ val: [ [ 1, 4, 5 ], [ 2, 4, 3 ], [ 3, 6, 2 ] ],											//the value transposed
+  determinant: 10,																			//determinant stays the same
+  adjoint: [ [ -10, 22, -8 ], [ 5, -13, 7 ], [ 0, 6, -4 ] ],								//adjoing is transposed
+  inverse: [ [ -1, 2.2, -0.8 ], [ 0.5, -1.3, 0.7 ], [ 0, 0.6, -0.4 ] ],						//and so is the inverse!
   valString: '\n\t|\t1\t4\t5\t|\n\t|\t2\t4\t3\t|\n\t|\t3\t6\t2\t|',
-  adjointString: '\n\t|\t-10\t22\t-8\t|\n\t|\t5\t-13\t7\t|\n\t|\t0\t6\t-4\t|',		//this has impacted the
-  inverseString: '\n\t|\t-1\t2.2\t-0.8\t|\n\t|\t0.5\t-1.3\t0.7\t|\n\t|\t0\t0.6\t	//string representations
--0.4\t|' }  																		//Cool! right?
+  adjointString: '\n\t|\t-10\t22\t-8\t|\n\t|\t5\t-13\t7\t|\n\t|\t0\t6\t-4\t|',				//this has impacted the
+  inverseString: '\n\t|\t-1\t2.2\t-0.8\t|\n\t|\t0.5\t-1.3\t0.7\t|\n\t|\t0\t0.6\t-0.4\t|'	//string representations
+}  																		//Cool! right?
 ```
 
 #3. Matrix.add([A],([B],...)):
@@ -152,10 +152,8 @@ The output
      [ 0.043, 0.087, -0.13 ],
      [ 0.348, -0.019, -0.043 ] ],
   valString: '\n\t|\t1\t0\t4\t|\n\t|\t7\t7\t7\t|\n\t|\t5\t-3\t6\t|',
-  adjointString: '\n\t|\t63\t-12\t-28\t|\n\t|\t-7\t-14\t21\t|\n\t|\t-56\t3\t7\t|
-',
-  inverseString: '\n\t|\t-0.391\t0.075\t0.174\t|\n\t|\t0.043\t0.087\t-0.13\t|\n\
-t|\t0.348\t-0.019\t-0.043\t|' }
+  adjointString: '\n\t|\t63\t-12\t-28\t|\n\t|\t-7\t-14\t21\t|\n\t|\t-56\t3\t7\t|',
+  inverseString: '\n\t|\t-0.391\t0.075\t0.174\t|\n\t|\t0.043\t0.087\t-0.13\t|\n\t|\t0.348\t-0.019\t-0.043\t|' }
 ```
 
 
