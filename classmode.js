@@ -189,7 +189,7 @@ var serialize = function(matrix){
 
 var Matrix = function(rows, cols, identity){
 	this.val = [];
-	identity = identity === true? true : false;
+	identity = identity === false? false : true;
 	for(var i = 0; i < rows; i++) {
 		var temp = [];
 		for( var j = 0; j < cols; j++) {
@@ -493,6 +493,6 @@ var _2dMatrix = [
 var _1dMatrix = [
 					[1]
 ];
-var matrix = new Matrix(2,2,true);
-matrix.set(serialize(_3dMatrix), 3, 3);
+var _2DMatrix = new Matrix(2,2,true);
+console.log(_2DMatrix);
 // console.log(matrix.add(_3dMatrix1));
