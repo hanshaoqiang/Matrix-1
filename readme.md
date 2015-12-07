@@ -1,3 +1,9 @@
+Installation
+------------
+```shell
+npm install matrixsoup
+```
+
 Matrix constructor:
 --------------------
 1. first argument for number of rows of the new matrix.
@@ -23,7 +29,7 @@ var Matrix = require('matrixsoup');
 var _2DMatrix = new Matrix(2,2);
 ```
 This will create a 2x2 matrix object which would appear as:
-```javascript
+```shell
 { 
 	val: [ [ 1, 0 ], [ 0, 1 ] ],
 	determinant: 1,
