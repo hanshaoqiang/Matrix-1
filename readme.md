@@ -231,5 +231,18 @@ Gives output:
 @isChainable: false
 
 The isEqual method checks if the passed argument matrix is equal to the matrix object's val matrix property.
-Returns true if equal. 
+Returns true if equal.
 
+```javascript
+var _3DMatrix1 = [
+					[-1, -2, -1],
+					[-1, 0,  -2],
+					[-2, -3,  0]
+];
+var _3DMatrix = new Matrix(2,2,true);	
+_3DMatrix.set([1,2,3,4,4,6,5,3,2],3,3);
+console.log(_3DMatrix.isEqual(_3DMatrix1));
+``` 
+```javascript
+false
+```
