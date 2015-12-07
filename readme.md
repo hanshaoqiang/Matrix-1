@@ -42,7 +42,7 @@ Methods
 ========
 1. 	Matrix setter:
 ------------------
-		- first argument is an array to be converted to a matrix.
-		- second argument for number of rows of the new matrix.
-		- third argument for number of coloumns of the new matrix.
-	@isChainable: True
+- first argument is an array to be converted to a matrix.
+- second argument for number of rows of the new matrix.
+- third argument for number of coloumns of the new matrix.
+isChainable: True
