@@ -261,7 +261,6 @@ Matrix.prototype.set = function(input, rows, cols) {
 		pos += cols;
 		matrix.push(temp);
 	}
-
 	this.val = matrix;
 	this.det();
 	this.adj();
@@ -364,13 +363,12 @@ Matrix.prototype.add = function(){
 	var rows = size(current)[0];
 	var cols = size(current)[1];
 	for(var i = 0; i < argumentLength; i++) {
-		if(size(arguments[i])[0] !== size(current)[0] || size(arguments[i])[1] !== size(current)[1] ) {
+		if(size(arguments[i])[0] !== rows || size(arguments[i])[1] !== cols ) {
 			
 		} else {
 			newMatrices.push(arguments[i]);			
 		}
 	}
-
 	for(i = 0; i < argumentLength; i++) {
 		for(var j = 0; j < rows; j++) {
 			for(var k = 0; k < cols; k++) {
@@ -545,7 +543,17 @@ Matrix.prototype.isEqual = function(matrix2) {
 	Implementing matrix methods
 
 ========================================================== */
-var _2DMatrix = new Matrix(2,2,true);	
-console.log(_2DMatrix.set([1,2,3,4],2,2));
-console.log(_2DMatrix.transpose());
+var _3DMatrix1 = [
+					[-1, -2, -1],
+					[-1, 0,  -2],
+					[-2, -3,  0]
+];
+var _3DMatrix2 = [
+					[1, 0, 2],
+					[4, 3, 3],
+					[2, -3,4]
+];
+var _3DMatrix = new Matrix(2,2,true);	
+_3DMatrix.set([1,2,3,4,4,6,5,3,2],3,3);
+console.log(_3DMatrix.add(_3DMatrix1, _3DMatrix2));
 module.exports = Matrix;

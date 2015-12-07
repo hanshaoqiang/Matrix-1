@@ -97,25 +97,69 @@ Transposes an NxM matrix: the resultant matrix appears as if rotated 90° anti-c
 The transpose method also updates the adjoint, inverse and the string representations.
 
 ```javascript
-console.log(_2DMatrix.set([1,2,3,4],2,2));
-console.log(_2DMatrix.transpose());
+console.log(_3DMatrix.set([1,2,3,4,4,6,5,3,2],3,3));
+console.log(_3DMatrix.transpose());
 ```
 
 ```javascript
-{ val: [ [ 1, 2 ], [ 3, 4 ] ],							//Notice this...
-  determinant: -2,
-  adjoint: [ [ 4, 2 ], [ -3, -1 ] ],					//and this...
-  inverse: [ [ -2, -1 ], [ 1.5, 0.5 ] ],				//along with this...	
-  valString: '\n\t|\t1\t2\t|\n\t|\t3\t4\t|',
-  adjointString: '\n\t|\t4\t2\t|\n\t|\t-3\t-1\t|',
-  inverseString: '\n\t|\t-2\t-1\t|\n\t|\t1.5\t0.5\t|' } //setter call ending
+{ val: [ [ 1, 2, 3 ], [ 4, 4, 6 ], [ 5, 3, 2 ] ],									//Notice this...
+  determinant: 10,
+  adjoint: [ [ -10, 5, 0 ], [ 22, -13, 6 ], [ -8, 7, -4 ] ],						//and this...
+  inverse: [ [ -1, 0.5, 0 ], [ 2.2, -1.3, 0.6 ], [ -0.8, 0.7, -0.4 ] ],				//this as well...
+  valString: '\n\t|\t1\t2\t3\t|\n\t|\t4\t4\t6\t|\n\t|\t5\t3\t2\t|',
+  adjointString: '\n\t|\t-10\t5\t0\t|\n\t|\t22\t-13\t6\t|\n\t|\t-8\t7\t-4\t|',
+  inverseString: '\n\t|\t-1\t0.5\t0\t|\n\t|\t2.2\t-1.3\t0.6\t|\n\t|\t-0.8\t0.7\t
+-0.4\t|' }
 
-{ val: [ [ 1, 3 ], [ 2, 4 ] ],							//transpose of the value
-  determinant: -2,										// no effect to the determinant
-  adjoint: [ [ 4, -3 ], [ 2, -1 ] ],					//transposes the adjoint
-  inverse: [ [ -2, 1.5 ], [ -1, 0.5 ] ],				//and the inverse matrices
-  valString: '\n\t|\t1\t3\t|\n\t|\t2\t4\t|',			//bound to the matrix object
-  adjointString: '\n\t|\t4\t-3\t|\n\t|\t2\t-1\t|',
-  inverseString: '\n\t|\t-2\t1.5\t|\n\t|\t-1\t0.5\t|' } //transpose call ending
-  														//Cool?!
+{ val: [ [ 1, 4, 5 ], [ 2, 4, 3 ], [ 3, 6, 2 ] ],									//the value transposed
+  determinant: 10,																	//determinant stays the same
+  adjoint: [ [ -10, 22, -8 ], [ 5, -13, 7 ], [ 0, 6, -4 ] ],						//adjoing is transposed
+  inverse: [ [ -1, 2.2, -0.8 ], [ 0.5, -1.3, 0.7 ], [ 0, 0.6, -0.4 ] ],				//and so is the inverse!
+  valString: '\n\t|\t1\t4\t5\t|\n\t|\t2\t4\t3\t|\n\t|\t3\t6\t2\t|',
+  adjointString: '\n\t|\t-10\t22\t-8\t|\n\t|\t5\t-13\t7\t|\n\t|\t0\t6\t-4\t|',		//this has impacted the
+  inverseString: '\n\t|\t-1\t2.2\t-0.8\t|\n\t|\t0.5\t-1.3\t0.7\t|\n\t|\t0\t0.6\t	//string representations
+-0.4\t|' }  																		//Cool! right?
 ```
+
+#3. Matrix.add([A],([B],...)):
+@isChainable: true
+
+The add method allows variable number of matrices to be sent as arguments to be added with the matrix.
+This updates the determinant, adjoint, inverse and string representations.
+
+```javascript
+var _3DMatrix1 = [
+					[-1, -2, -1],
+					[-1, 0,  -2],
+					[-2, -3,  0]
+];
+var _3DMatrix2 = [
+					[1, 0, 2],
+					[4, 3, 3],
+					[2, -3,4]
+];
+var _3DMatrix = new Matrix(2,2,true);	
+_3DMatrix.set([1,2,3,4,4,6,5,3,2],3,3);
+console.log(_3DMatrix.add(_3DMatrix1, _3DMatrix2));
+```
+The output
+```javascript
+{ val: [ [ 1, 0, 4 ], [ 7, 7, 7 ], [ 5, -3, 6 ] ],
+  determinant: -161,
+  adjoint: [ [ 63, -12, -28 ], [ -7, -14, 21 ], [ -56, 3, 7 ] ],
+  inverse:
+   [ [ -0.391, 0.075, 0.174 ],
+     [ 0.043, 0.087, -0.13 ],
+     [ 0.348, -0.019, -0.043 ] ],
+  valString: '\n\t|\t1\t0\t4\t|\n\t|\t7\t7\t7\t|\n\t|\t5\t-3\t6\t|',
+  adjointString: '\n\t|\t63\t-12\t-28\t|\n\t|\t-7\t-14\t21\t|\n\t|\t-56\t3\t7\t|
+',
+  inverseString: '\n\t|\t-0.391\t0.075\t0.174\t|\n\t|\t0.043\t0.087\t-0.13\t|\n\
+t|\t0.348\t-0.019\t-0.043\t|' }
+```
+
+
+
+
+
+
