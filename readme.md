@@ -31,6 +31,7 @@ Usage
 ```javascript
 var Matrix = require('matrixsoup');
 var _2DMatrix = new Matrix(2,2);
+console.log(_2DMatrix);
 ```
 This will create a 2x2 matrix object which would appear as:
 ```shell
@@ -48,9 +49,17 @@ This will create a 2x2 matrix object which would appear as:
 
 Methods
 ========
-#1. Matrix setter: _isChainable: True_
+#1. Matrix.set([array], rows, cols): _isChainable: True_
+
+1. First argument is a 1-D array to be converted to a matrix.
+2. Second argument for number of rows of the new matrix.
+3. Third argument for number of coloumns of the new matrix.
+
+This method will update the determinant, adjoint, inverse and string properties
+each time it is called.
+
 ```javascript
-_2DMatrix.set([1,2,3,4],2,2);
+console.log(_2DMatrix.set([1,2,3,4],2,2));
 ```
 gives output:-
 ```shell
@@ -62,7 +71,7 @@ gives output:-
   adjointString: '\n\t|\t4\t2\t|\n\t|\t-3\t-1\t|',
   inverseString: '\n\t|\t-2\t-1\t|\n\t|\t1.5\t0.5\t|' }
 ```
-
+To understand the string properties, consider the following.
 ```javascript
 console.log(_2DMatrix.valString);
 console.log(_2DMatrix.adjointString);
@@ -70,24 +79,40 @@ console.log(_2DMatrix.inverseString);
 ```
 
 ```shell
-        |       1       2       |
+        |       1       2       | //valString
         |       3       4       |
 
-        |       4       2       |
+        |       4       2       | //adjointString
         |       -3      -1      |
 
-        |       -2      -1      |
+        |       -2      -1      | //inverseString
         |       1.5     0.5     |
-
 ```
-1. First argument is an array to be converted to a matrix.
-2. Second argument for number of rows of the new matrix.
-3. Third argument for number of coloumns of the new matrix.
 
-This method will update the determinant, adjoint, inverse and string properties
-each time it is called.
+#2. Matrix.transpose(): _isChainable: True_
+Transposes an NxM matrix: the resultant matrix appears as if rotated 90° anti-clockwise.
+The transpose method also updates the adjoint, inverse and the string representations.
 
+```javascript
+console.log(_2DMatrix.set([1,2,3,4],2,2));
+console.log(_2DMatrix.transpose());
+```
 
+```shell
+{ val: [ [ 1, 2 ], [ 3, 4 ] ],							//Notice this...
+  determinant: -2,
+  adjoint: [ [ 4, 2 ], [ -3, -1 ] ],					//and this...
+  inverse: [ [ -2, -1 ], [ 1.5, 0.5 ] ],				//along with this...	
+  valString: '\n\t|\t1\t2\t|\n\t|\t3\t4\t|',
+  adjointString: '\n\t|\t4\t2\t|\n\t|\t-3\t-1\t|',
+  inverseString: '\n\t|\t-2\t-1\t|\n\t|\t1.5\t0.5\t|' } //setter call ending
 
-#2. Matrix transpose: _isChainable: True_
-
+{ val: [ [ 1, 3 ], [ 2, 4 ] ],							//transpose of the value
+  determinant: -2,										// no effect to the determinant
+  adjoint: [ [ 4, -3 ], [ 2, -1 ] ],					//transposes the adjoint
+  inverse: [ [ -2, 1.5 ], [ -1, 0.5 ] ],				//and the inverse matrices
+  valString: '\n\t|\t1\t3\t|\n\t|\t2\t4\t|',			//bound to the matrix object
+  adjointString: '\n\t|\t4\t-3\t|\n\t|\t2\t-1\t|',
+  inverseString: '\n\t|\t-2\t1.5\t|\n\t|\t-1\t0.5\t|' } //transpose call ending
+  														//Cool?!
+```

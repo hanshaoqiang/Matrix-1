@@ -547,7 +547,5 @@ Matrix.prototype.isEqual = function(matrix2) {
 ========================================================== */
 var _2DMatrix = new Matrix(2,2,true);	
 console.log(_2DMatrix.set([1,2,3,4],2,2));
-console.log(_2DMatrix.valString);
-console.log(_2DMatrix.adjointString);
-console.log(_2DMatrix.inverseString);
+console.log(_2DMatrix.transpose());
 module.exports = Matrix;
