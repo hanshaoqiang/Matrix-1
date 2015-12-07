@@ -1,7 +1,7 @@
 Installation
 ------------
 ```shell
-npm install matrixsoup
+$ npm install matrixsoup
 ```
 
 Matrix constructor:
@@ -38,3 +38,11 @@ This will create a 2x2 matrix object which would appear as:
 }
 
 ``` 
+Methods
+========
+1. 	Matrix setter:
+------------------
+		- first argument is an array to be converted to a matrix.
+		- second argument for number of rows of the new matrix.
+		- third argument for number of coloumns of the new matrix.
+	@isChainable: True
