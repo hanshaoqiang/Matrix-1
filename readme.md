@@ -108,8 +108,7 @@ console.log(_3DMatrix.transpose());
   inverse: [ [ -1, 0.5, 0 ], [ 2.2, -1.3, 0.6 ], [ -0.8, 0.7, -0.4 ] ],				//this as well...
   valString: '\n\t|\t1\t2\t3\t|\n\t|\t4\t4\t6\t|\n\t|\t5\t3\t2\t|',
   adjointString: '\n\t|\t-10\t5\t0\t|\n\t|\t22\t-13\t6\t|\n\t|\t-8\t7\t-4\t|',
-  inverseString: '\n\t|\t-1\t0.5\t0\t|\n\t|\t2.2\t-1.3\t0.6\t|\n\t|\t-0.8\t0.7\t
--0.4\t|' }
+  inverseString: '\n\t|\t-1\t0.5\t0\t|\n\t|\t2.2\t-1.3\t0.6\t|\n\t|\t-0.8\t0.7\t-0.4\t|' }
 
 { val: [ [ 1, 4, 5 ], [ 2, 4, 3 ], [ 3, 6, 2 ] ],											//the value transposed
   determinant: 10,																			//determinant stays the same
