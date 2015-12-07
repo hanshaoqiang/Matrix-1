@@ -545,3 +545,5 @@ Matrix.prototype.isEqual = function(matrix2) {
 	Implementing matrix methods
 
 ========================================================== */
+
+module.exports = new Matrix(3,3);
