@@ -6,25 +6,6 @@ $ npm install matrixsoup
 
 Matrix constructor
 ==================
-1. First argument for number of rows of the new matrix.
-2. Second argument for number of columns of the new matrix.
-3. Third argument [is optional]: can be set as true or false. 
-	- [true] for creating identity matrix.
-	- [not true](example: banana, potato, crispy), creates a null matrix.
-4. Properties :
-	- val 			: The matrix bound to the Matrix object instance. 
-	- determinant	: The magnitude of the Matrix.
-	- adjoint 		: The matrix formed by taking transpose of 
-						cofactor-matrix of the original matrix.
-	- inverse 		: if [A][B] = [I], where [A] and [B] are matrices of same order, 
-						then [B] is inverse of [A]. This property holds true only 
-						for square matrices having |A| != 0.						
-						For non-square matrix, say A, the property 
-						is set as [NaN] also for |A| = 0 matrices.
-5. String representations :
-	-valString
-	-adjointString
-	-inverseString
 
 Usage
 =====
@@ -46,6 +27,28 @@ This will create a 2x2 matrix object which would appear as:
 }
 
 ```
+
+1. First argument for number of rows of the new matrix.
+2. Second argument for number of columns of the new matrix.
+3. Third argument [is optional]: can be set as true or false. 
+	- [false] for creating null matrix.
+	- [not false](example: "banana", "potato", "crispy", "", "$#*t!~"), creates an identity matrix.
+4. Properties :
+	- val 			: The matrix bound to the Matrix object instance. 
+	- determinant	: The magnitude of the Matrix.
+	- adjoint 		: The matrix formed by taking transpose of 
+						cofactor-matrix of the original matrix.
+	- inverse 		: if [A][B] = [I], where [A] and [B] are matrices of same order, 
+						then [B] is inverse of [A]. This property holds true only 
+						for square matrices having |A| != 0.						
+						For non-square matrix, say A, the property 
+						is set as [NaN] also for |A| = 0 matrices.
+5. String representations :
+	-valString
+	-adjointString
+	-inverseString
+
+
 
 Methods
 ========
