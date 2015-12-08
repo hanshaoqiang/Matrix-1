@@ -1,6 +1,6 @@
 {
   "name": "matrixsoup",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Matrix operations- add, subtract, multiply, inverse, determinant, adjoint.",
   "main": "index.min.js",
   "scripts": {
