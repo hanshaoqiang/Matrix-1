@@ -6,9 +6,8 @@ $ npm install matrixsoup
 
 Matrix constructor
 ==================
+##Usage
 
-Usage
-=====
 ```javascript
 var Matrix = require('matrixsoup');
 var _2DMatrix = new Matrix(2,2);
