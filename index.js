@@ -68,19 +68,25 @@ var	calcAdjoint = function(matrix){
 		}
 
 		var adjoint = [], negative = -1;
+
 		for( var i = 0; i < matrix.length; i++ ) {
 			var temp = [];
 			for( var j = 0; j < matrix[i].length; j++ ) {
-				negative *= -1;
-				if(calcDeterminant(matrixGenerator(matrix, i, j)) !== 0) {
-					temp.push( calcDeterminant(matrixGenerator(matrix, i, j)) * negative );					
-				} else {
-					temp.push( calcDeterminant(matrixGenerator(matrix, i, j)) );
-				}
+				temp.push( calcDeterminant(matrixGenerator(matrix, i, j)) );								
 			}
 			adjoint.push(temp);
 		}
-		return xPose(adjoint);
+		adjoint = xPose(adjoint);
+		for( var i = 0; i < adjoint.length; i++ ) {
+			for( var j = 0; j < adjoint[i].length; j++ ) {
+				if( ((i%2 === 0) && (j%2 !== 0)) || ((i%2 !== 0) && (j%2 === 0)) ) {
+					adjoint[i][j] *= -1;
+				} else {
+					adjoint[i][j] *= 1;
+				}
+			}
+		}
+		return adjoint;
 	}	
 
 var calcInverse = function(matrix){
@@ -543,17 +549,3 @@ Matrix.prototype.isEqual = function(matrix2) {
 	Implementing matrix methods
 
 ========================================================== */
-var _3DMatrix1 = [
-					[-1, -2, -1],
-					[-1, 0,  -2],
-					[-2, -3,  0]
-];
-var _3DMatrix2 = [
-					[1, 0, 2],
-					[4, 3, 3],
-					[2, -3,4]
-];
-var _3DMatrix = new Matrix(2,2,true);	
-_3DMatrix.set([1,2,3,4,4,6,5,3,2],3,3);
-console.log(_3DMatrix.isEqual(_3DMatrix1));
-module.exports = Matrix;

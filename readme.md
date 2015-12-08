@@ -3,15 +3,14 @@ Installation
 ```shell
 $ npm install matrixsoup
 ```
-Installs a 19.8KB package 
 
 Matrix constructor
 ==================
 1. First argument for number of rows of the new matrix.
-2. Second argument for number of columns of the new matrix
+2. Second argument for number of columns of the new matrix.
 3. Third argument [is optional]: can be set as true or false. 
-	- set third argument to true for creating identity matrix.
-	- not setting as true creates null matrix.
+	- [true] for creating identity matrix.
+	- [not true](example: banana, potato, crispy), creates a null matrix.
 4. Properties :
 	- val 			: The matrix bound to the Matrix object instance. 
 	- determinant	: The magnitude of the Matrix.
@@ -41,7 +40,7 @@ This will create a 2x2 matrix object which would appear as:
 	determinant: 1,
 	adjoint: [ [ 1, 0 ], [ 0, 1 ] ],
 	inverse: [ [ 1, 0 ], [ 0, 1 ] ],
-	valString: '\n\t|\t1\t0\t|\n\t|\t0\t1\t|',
+	valString: '\n\t|\t1\t0\t|\n\t|\t0\t1\t|',			//these will be explained soon
 	adjointString: '\n\t|\t1\t0\t|\n\t|\t0\t1\t|',
 	inverseString: '\n\t|\t1\t0\t|\n\t|\t0\t1\t|'
 }
@@ -246,3 +245,35 @@ console.log(_3DMatrix.isEqual(_3DMatrix1));
 ```javascript
 false
 ```
+Easter Eggs
+===========
+##1. Matrix.det():
+@isChainable: true
+
+This method is called implicitly by the Matrix.set(), Matrix.transpose(), Matrix.add(), Matrix.sub(), 
+Matrix.multiply(), Matrix.scale(). This can be used to obtain the determinant of a matrix if other bound properties are not required.
+
+```javascript
+var _3DMatrix = new Matrix(2,2,true);	
+_3DMatrix.set([1,2,3,4,5,5,6,2,1],3,3);
+var determinant = _3DMatrix.det().determinant;
+console.log(determinant);
+```
+
+```javascript
+	-19
+```
+Not very useful though!
+
+##2. Matrix.adj():
+@isChainable: true
+
+This method is called implicitly by the Matrix.set(), Matrix.transpose(), Matrix.add(), Matrix.sub(), 
+Matrix.multiply(), Matrix.scale(). This can be used to obtain the adjoint of a matrix if other bound properties are not required.
+
+##3. Matrix.adj():
+@isChainable: true
+
+This method is called implicitly by the Matrix.set(), Matrix.transpose(), Matrix.add(), Matrix.sub(), 
+Matrix.multiply(), Matrix.scale(). This can be used to obtain the inverse of a matrix if other bound properties are not required.
+
