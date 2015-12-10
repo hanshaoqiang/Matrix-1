@@ -21,6 +21,72 @@ var xPose = function (matrix) {
 	}
 }
 
+var alternator = function (matrix) {
+	for( var i = 0; i < size(matrix)[0]; i++ ) {
+		for( var j = 0; j < size(matrix)[1]; j++ ) {
+			if( ((i%2 === 0) && (j%2 !== 0)) || ((i%2 !== 0) && (j%2 === 0)) ) {
+				matrix[i][j] *= -1;
+			} else {
+				matrix[i][j] *= 1;
+			}
+		}
+	}
+	return matrix;
+}
+
+var calcTrace = function(matrix) {
+	var trace = 0;
+	for(var i = 0; i < size(matrix)[0]; i++ ) {
+		for(var j = 0; j < size(matrix)[1]; j++ ) {
+			if(i === j) {
+				trace += matrix[i][j]; 
+			}
+		}
+	}
+	return trace;
+}
+
+var symmetric = function(matrix) {
+	var symmetric = xPose(matrix);
+	if(equal(symmetric, matrix)){
+		return true;
+	} else {
+		return false;
+	}
+}
+
+var hermitian = function(matrix) {
+	var hermit = xPose(matrix);
+	matrix = alternator(matrix);
+	if(equal(hermit, matrix)){
+		return true;
+	} else {
+		return false;
+	}
+}
+
+var equal = function(matrix1, matrix2) {
+	var rows = size(matrix1)[0];
+	var cols = size(matrix1)[1];
+	var newRows = size(matrix2)[0];
+	var newCols = size(matrix2)[1];
+
+	if(rows !== newRows || cols !== newCols) {
+		return false;
+	} else {
+
+		for(var i = 0; i < rows; i++ ) {
+			for(var j = 0; j < cols; j++ ) {
+				if(matrix1[i][j] !== matrix2[i][j]){
+					return false;
+				}
+			}
+		}
+	}
+
+	return true;	
+}
+
 var calcDeterminant = function(matrix){
 
 		if(!squareMatrix(matrix)){
@@ -76,16 +142,8 @@ var	calcAdjoint = function(matrix){
 			}
 			adjoint.push(temp);
 		}
-		adjoint = xPose(adjoint);
-		for( var i = 0; i < adjoint.length; i++ ) {
-			for( var j = 0; j < adjoint[i].length; j++ ) {
-				if( ((i%2 === 0) && (j%2 !== 0)) || ((i%2 !== 0) && (j%2 === 0)) ) {
-					adjoint[i][j] *= -1;
-				} else {
-					adjoint[i][j] *= 1;
-				}
-			}
-		}
+		adjoint = alternator(xPose(adjoint));
+
 		return adjoint;
 	}	
 
@@ -245,6 +303,7 @@ var Matrix = function(rows, cols, identity){
 	this.adjoint = this.val;
 	this.inverse = (identity === true)?this.val:[NaN];
 	this.stringify();
+	this.valTrace = (identity === true)? rows: 0;
 }
 
 /*  -----------------------------------------------------------------
@@ -272,6 +331,7 @@ Matrix.prototype.set = function(input, rows, cols) {
 	this.adj();
 	this.inv();		
 	this.stringify();
+	this.trace();
 	return this;
 }
 
@@ -293,6 +353,7 @@ Matrix.prototype.transpose = function() {
 	this.adjoint = xPose(this.adjoint);
 	this.inverse = xPose(this.inverse);
 	this.stringify();
+	this.trace();
 	return this;
 }
 
@@ -387,6 +448,7 @@ Matrix.prototype.add = function(){
 	this.adj();
 	this.inv();
 	this.stringify();
+	this.trace();
 	return this;
 }
 
@@ -426,6 +488,7 @@ Matrix.prototype.sub = function(){
 	this.adj();
 	this.inv();
 	this.stringify();
+	this.trace();
 	return this;
 }
 
@@ -454,16 +517,16 @@ Matrix.prototype.multiply = function(){
 		var cols = size(current)[1];
 		var newRows = size(newMatrices[i])[0];
 		var newCols = size(newMatrices[i])[1];
+
 		if(cols !== newRows) {
 			this.val = [NaN];
 			return this;
 		}
 
-		var product = new Matrix(rows, newCols);
+		var product = new Matrix(rows, newCols, false);
 		product = product.val;
-	
 		for(var j = 0; j < rows; j++ ) {
-			for(var k = 0; k < size(newMatrices[i])[1]; k++) {
+			for(var k = 0; k < newCols; k++) {
 				for( var l = 0; l < cols; l++ ) {
 					product[j][k] += current[j][l] * newMatrices[i][l][k];
 				}
@@ -476,6 +539,7 @@ Matrix.prototype.multiply = function(){
 	this.adj();
 	this.inv();
 	this.stringify();
+	this.trace();
 	return this;
 }
 
@@ -507,7 +571,8 @@ Matrix.prototype.scale = function() {
 	this.val = matrix;
 	this.det();
 	this.adj();
-	this.inv();	
+	this.inv();
+	this.trace();	
 	return this;
 }
 
@@ -523,25 +588,27 @@ Matrix.prototype.scale = function() {
 
 Matrix.prototype.isEqual = function(matrix2) {
 	var matrix = this.val;
-	var rows = size(matrix)[0];
-	var cols = size(matrix)[1];
-	var newRows = size(matrix2)[0];
-	var newCols = size(matrix2)[1];
+	return equal(this.val, matrix2);
 
-	if(rows !== newRows || cols !== newCols) {
-		return false;
-	} else {
-
-		for(var i = 0; i < rows; i++ ) {
-			for(var j = 0; j < cols; j++ ) {
-				if(matrix[i][j] !== matrix2[i][j]){
-					return false;
-				}
-			}
-		}
-	}
-
-	return true;
 }
 
+Matrix.prototype.isSymmetric = function() {
+	var matrix = this.val;
+	return symmetric(matrix);
+}
+
+Matrix.prototype.isHermitian = function() {
+	var matrix = this.val;
+	return hermitian(matrix);
+}
+
+Matrix.prototype.trace = function() {
+	var matrix = this.val;
+	this.valTrace = calcTrace(matrix);
+	return this;
+}
+
+var matrix = new Matrix(2,2);
+console.log(matrix.set([1,4,1,0],2,2));
+console.log(matrix.multiply(matrix.inv().inverse));
 module.exports = Matrix;

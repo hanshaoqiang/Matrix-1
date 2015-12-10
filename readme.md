@@ -247,6 +247,23 @@ console.log(_3DMatrix.isEqual(_3DMatrix1));
 ```javascript
 false
 ```
+
+##8. Matrix.trace():
+@isChainable: true
+
+This method will return true if the val property of the matrix object is a symmetric matrix.
+
+##9. Matrix.isSymmetric():
+@isChainable: false
+
+This method will return true if the val property of the matrix object is a symmetric matrix.
+
+##10. Matrix.isHermitian():
+@isChainable: false
+
+This method will return true if the val property of the matrix object is a hermitian matrix.
+
+
 Easter Eggs
 ===========
 ##1. Matrix.det():

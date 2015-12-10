@@ -6,3 +6,4 @@ Makefile
 test.js
 use.js
 gzip.exe
+npm-debug.log
