@@ -51,7 +51,10 @@ This will create a 2x2 matrix object which would appear as:
 
 Methods
 ========
-##1. Matrix.set([array], rows, cols): 
+
+Matrix.set([array], rows, cols):
+--------------------------------
+
 _isChainable: True_
 
 1. First argument is a 1-D array to be converted to a matrix.
@@ -92,7 +95,8 @@ console.log(_2DMatrix.inverseString);
         |       1.5     0.5     |
 ```
 
-##2. Matrix.transpose(): 
+Matrix.transpose():
+------------------------
 _isChainable: True_
 
 Transposes an NxM matrix: the resultant matrix appears as if rotated 90° anti-clockwise.
@@ -122,7 +126,8 @@ console.log(_3DMatrix.transpose());
 }  																		//Cool! right?
 ```
 
-##3. Matrix.add([A],([B],...)):
+Matrix.add([A],([B],...)):
+--------------------------
 @isChainable: true
 
 The add method allows variable number of matrices to be sent as arguments to be added with the matrix.
@@ -157,7 +162,8 @@ The output
   inverseString: '\n\t|\t-0.391\t0.075\t0.174\t|\n\t|\t0.043\t0.087\t-0.13\t|\n\t|\t0.348\t-0.019\t-0.043\t|' }
 ```
 
-##4. Matrix.sub([A],([B],...)):
+Matrix.sub([A],([B],...)):
+--------------------------
 @isChainable: true
 
 The sub method allows variable number of matrices to be sent as arguments to be subtracted from the matrix.
@@ -181,7 +187,8 @@ Gives output:
   inverseString: '\n\t|\t-0.681\t0.377\t0.261\t|\n\t|\t0.391\t-0.174\t-0.043\t|\n\t|\t0.058\t0.159\t-0.043\t|' 
 }
 ```
-##5. Matrix.multiply([A],([B],...)):
+Matrix.multiply([A],([B],...)):
+-------------------------------
 @isChainable: true
 
 The multiply method allows variable number of matrices to be sent as arguments to be multiplied to the matrix.
@@ -204,7 +211,8 @@ Gives output:
   adjointString: '\n\t|\t1284\t-756\t312\t|\n\t|\t-336\t147\t-7\t|\n\t|\t-1056\t630\t-274\t|',
   inverseString: '\n\t|\t2.184\t-1.286\t0.531\t|\n\t|\t-0.571\t0.25\t-0.012\t|\n\t|\t-1.796\t1.071\t-0.466\t|' }
 ```
-##6. Matrix.scale(A,(B,...)):
+Matrix.scale(A,(B,...)):
+------------------------
 @isChainable: true
 
 The scale method allows variable number of numbers to be sent as arguments to be multiplied to the matrix as scalars.
@@ -228,7 +236,9 @@ Gives output:
   adjointString: '\n\t|\t-1000\t500\t0\t|\n\t|\t2200\t-1300\t600\t|\n\t|\t-800\t700\t-400\t|',
   inverseString: '\n\t|\t-0.1\t0.05\t0\t|\n\t|\t0.22\t-0.13\t0.06\t|\n\t|\t-0.08\t0.07\t-0.04\t|' }
 ```
-##7. Matrix.isEqual([A]):
+
+Matrix.isEqual([A]):
+--------------------
 @isChainable: false
 
 The isEqual method checks if the passed argument matrix is equal to the matrix object's val matrix property.
@@ -248,17 +258,20 @@ console.log(_3DMatrix.isEqual(_3DMatrix1));
 false
 ```
 
-##8. Matrix.trace():
+Matrix.trace():
+--------------------
 @isChainable: true
 
 This method will return true if the val property of the matrix object is a symmetric matrix.
 
-##9. Matrix.isSymmetric():
+Matrix.isSymmetric():
+------------------------
 @isChainable: false
 
 This method will return true if the val property of the matrix object is a symmetric matrix.
 
-##10. Matrix.isHermitian():
+Matrix.isHermitian():
+---------------------
 @isChainable: false
 
 This method will return true if the val property of the matrix object is a hermitian matrix.
@@ -266,7 +279,8 @@ This method will return true if the val property of the matrix object is a hermi
 
 Easter Eggs
 ===========
-##1. Matrix.det():
+Matrix.det():
+------------------
 @isChainable: true
 
 This method is called implicitly by the Matrix.set(), Matrix.transpose(), Matrix.add(), Matrix.sub(), 
@@ -282,15 +296,16 @@ console.log(determinant);
 ```javascript
 	-19
 ```
-Not very useful though!
 
-##2. Matrix.adj():
+Matrix.adj():
+-------------
 @isChainable: true
 
 This method is called implicitly by the Matrix.set(), Matrix.transpose(), Matrix.add(), Matrix.sub(), 
 Matrix.multiply(), Matrix.scale(). This can be used to obtain the adjoint of a matrix if other bound properties are not required.
 
-##3. Matrix.adj():
+Matrix.adj():
+-------------
 @isChainable: true
 
 This method is called implicitly by the Matrix.set(), Matrix.transpose(), Matrix.add(), Matrix.sub(), 
